@@ -2,6 +2,7 @@ import logging
 import os
 import urllib2
 from urllib import urlencode
+import datetime
 from simplejson import loads
 from ConfigParser import SafeConfigParser
 from os.path import exists as pexists, join as pjoin, expanduser
@@ -26,6 +27,18 @@ class Entity(object):
         self.entity_type = None
         self.entity_id = None
 
+    def _construct_timeseries(self, timeseries, constraints={}):
+        """
+        wraps response_from for timeseries calls, returns the resulting dict
+        """
+        self.response_from(timeseries, constraints)
+        if self.response == None:
+            return None
+        return {'data':self.response['data'],
+                'period':self.response['period'],
+                'start time':datetime.datetime.fromtimestamp(self.response['start_time']),
+                'end time':datetime.datetime.fromtimestamp(self.response['end_time'])}
+        
     def response_from(self, ext_endpoint=None, params = {}):
         """
         fetches and parses data from the semetric API, returning whatever is
