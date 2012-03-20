@@ -1,13 +1,19 @@
 import logging
+import os
 import urllib2
 from urllib import urlencode
 from simplejson import loads
 from ConfigParser import SafeConfigParser
 from os.path import exists as pexists, join as pjoin, expanduser
 
-config_path = pjoin(expanduser('~'), '.semetric')
-cfg = SafeConfigParser()
-cfg.read(pjoin(config_path, 'config'))
+try:
+    API_KEY = os.environ['SEMETRIC_KEY']
+except KeyError:
+    config_path = pjoin(expanduser('~'), '.semetric')
+    cfg = SafeConfigParser()
+    cfg.read(pjoin(config_path, 'config'))
+    API_KEY = cfg.get('semetric','api.key')
+
 
 class Entity(object):
     """
@@ -35,7 +41,7 @@ class Entity(object):
         on success self.response will have the contents of the response
         a 
         """
-        params['token'] = cfg.get('semetric','api.key')
+        params['token'] = API_KEY
         base_endpoint="http://api.semetric.com/{entity}/{entityID}"
         uri = base_endpoint.format(entity=self.entity_type,entityID=self.entity_id)
         if ext_endpoint:
