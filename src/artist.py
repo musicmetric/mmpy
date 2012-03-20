@@ -5,10 +5,33 @@ class Artist(Entity):
     """
     wraps the artist entity type as described at http://developer.musicmetric.com/timeseries.html
     """
-    def __init__(self, artistUUID):
+    summary_attrs = ("class", "name", "id", "description", "musicbrainz", "previous_rank", "rank")
+    def __init__(self, artistUUID, **kwargs):
+        """
+        creates an artist instance. UUID required(or equivelant 3rd party id with prefix,
+        see http://developer.musicmetric.com/identification.html for details)
+        any attributes that are in 
+        """
         self.entity_type = 'artist'
         self.entity_id = artistUUID
+        self.fetched_summary = False # prevent the summary from being fetched multiple times
+        for key, val in kwargs.items():
+            if key in Artist.summary_attrs:
+                setattr(self, key, val)
+            else:
+                raise KeyError("unexpected creation attribute")
+        
+    def __getattr__(self, attr):
+        if attr in Artist.summary_attrs and not self.fetched_summary:
+            self.fetch_summary()
+            return getattr(self, attr)
+        return getattr(super(Artist, self), attr)
+
     def fetch_summary(self):
+        """
+        grabs the summary info and sets the corisponding attributes.
+        Note: overides existing attribute values for these attributes
+        """
         self.response_from()
         #should really clean up the triple nest
         for k,v in self.response.items():
@@ -21,6 +44,7 @@ class Artist(Entity):
                     else:
                         for ssk,ssv in subv.items():
                             setattr(self,ssk,ssv)
+        self.fetched_summary = True
 
         
         
