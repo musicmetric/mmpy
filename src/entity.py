@@ -50,7 +50,7 @@ class Entity(object):
             uri += ext_endpoint
         full_uri = uri + '?' + urlencode(params)
         logging.debug('opening '+full_uri)
-        wrapped_resp = loads(urllib2.urlopen(full_uri).read())
+        wrapped_resp = loads(urllib2.urlopen(full_uri).read(), encoding='utf-8')
         #better error handling should go here
         if not wrapped_resp['success']:
             if wrapped_resp["error"]["code"] == 204:

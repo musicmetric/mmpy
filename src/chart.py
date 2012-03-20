@@ -19,8 +19,9 @@ class Chart(Entity):
         mod = __import__(chart_type.lower()) #will error if class is unsupported
         cls = getattr(mod, chart_type.title())
         
-        setattr(self, chart_type.lower(), ((item["rank"], item["value"], cls(item[chart_type]['id']))
-                                            for item in self.response['data']))
+        setattr(self, chart_type.lower(),
+                ((item["rank"], item["value"], cls(item[chart_type]['id'], name=item[chart_type]['name']))
+                 for item in self.response['data']))
         for key, val in self.response.items():
             if key != "data":
                 setattr(self, key, val)
