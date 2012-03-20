@@ -4,6 +4,7 @@ from entity import *
 class Artist(Entity):
     """
     wraps the artist entity type as described at http://developer.musicmetric.com/timeseries.html
+    all timeseries are attributes of the form self.<type>_<source>, which sets a dict if there's data
     """
     summary_attrs = ("class", "name", "id", "description", "musicbrainz", "previous_rank", "rank")
     def __init__(self, artistUUID, **kwargs):
@@ -36,6 +37,14 @@ class Artist(Entity):
         if attr in Artist.summary_attrs and not self.fetched_summary:
             self.fetch_summary()
             return getattr(self, attr)
+        if len(attr.split('_')) == 2:
+            try:
+                result =  self._construct_timeseries(attr.replace('_', '/'))
+                setattr(self, attr, result) # don't want to call the api over and over
+                return result
+            except ValueError:
+                pass #call failed, probably not an endpoint
+                                                    
         return getattr(super(Artist, self), attr)
 
     def fetch_summary(self):
