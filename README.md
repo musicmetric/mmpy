@@ -5,10 +5,10 @@ This is the officially supported python wrapper for Musicmetric http REST api. T
 
 
 We provide the following data and services:
-* Time series data of fan activity on a set of social networks,
-* Sentiment analysis service for music related text
-* Fan demographics
-* a variety of lists and charts
+ * Time series data of fan activity on a set of social networks,
+ * Sentiment analysis service for music related text
+ * Fan demographics
+ * a variety of lists and charts
 
 
 The full API documentation can be found at http://developer.musicmetric.com
