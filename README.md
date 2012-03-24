@@ -22,8 +22,9 @@ In order to use this wrapper with Musicmetric API, you need to place your API ke
 
  * In an environment variable 'SEMETRIC_KEY'
  * In a config file, expected to be a ~/.semetric/config that should contain the following lines:
->[semetric]
->api.key = YOUR_KEY
->
+
+> [semetric]
+> api.key = YOUR_KEY
+> 
 
 both of these are checked at run time in the order listed. The first key found will be used.
