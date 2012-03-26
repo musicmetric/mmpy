@@ -16,7 +16,7 @@ class Chart(Entity):
                       for e_type in self.response['data'][0].keys()
                          if not e_type in ("rank","value")][0]
         #import the correct chart type, module will be all lower, clase will be titled (eg. artist.Artist)
-        mod = __import__(chart_type.lower()) #will error if class is unsupported
+        mod = __import__('mmpy.'+chart_type.lower()) #will error if class is unsupported
         cls = getattr(mod, chart_type.title())
         
         setattr(self, chart_type.lower(),
