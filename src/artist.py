@@ -6,7 +6,7 @@ class Artist(Entity):
     wraps the artist entity type as described at http://developer.musicmetric.com/timeseries.html
     all timeseries are attributes of the form self.<type>_<source>, which sets a dict if there's data
     """
-    summary_attrs = ("class", "name", "id", "description", "musicbrainz", "previous_rank", "rank")
+    summary_attrs = ("name", "id", "description", "musicbrainz", "previous_rank", "rank")
     def __init__(self, artistUUID, **kwargs):
         """
         creates an artist instance. UUID required(or equivelant 3rd party id with prefix,
