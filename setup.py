@@ -4,9 +4,9 @@ import ConfigParser
 from distutils.core import setup
 
 setup(name='mmpy',
-      version='0.0.1',
+      version='0.1dev',
       description='Musicmetric API Wrapper',
-      long_description="""This is the officially supported python wrapper for Musicmetric http api.  This API provides direct access to much of the data we use to drive our products.  This data is available for a wide array of music artists; in general, the more popular an artist is, the more likely there is going to be data.
+      long_description="""This is the officially supported python wrapper for Musicmetric REST api.  This API provides direct access to much of the data we use to drive our products.  This data is available for a wide array of music artists; in general, the more popular an artist is, the more likely there is going to be data.
 
       We provide the following data and services:
 
@@ -20,5 +20,6 @@ setup(name='mmpy',
       packages=['mmpy'],
       package_dir={'mmpy':'src'},
       provides=['mmpy'],
+      license='ISC License',
       requires=['simplejson']
       )
