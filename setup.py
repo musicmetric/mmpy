@@ -4,7 +4,7 @@ import ConfigParser
 from distutils.core import setup
 
 setup(name='mmpy',
-      version='0.1dev',
+      version='0.1',
       description='Musicmetric API Wrapper',
       long_description=open('README.md').read()
       author='Ben Fields',
@@ -13,6 +13,6 @@ setup(name='mmpy',
       packages=['mmpy'],
       package_dir={'mmpy':'src'},
       provides=['mmpy'],
-      license='ISC License',
+      license='LICENSE.txt',
       requires=['simplejson']
       )
