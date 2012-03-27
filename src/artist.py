@@ -27,6 +27,9 @@ class Artist(Entity):
         return "Artist::UUID - {0}:: Name - {1}".format(self.entity_id, name.encode('utf-8'))
 
     def __eq__(self, other):
+        if 'id' in self.__dict__ and 'id' in other.__dict__:
+            # if fetched_summary on both, compare musicmetric IDs
+            return self.id == other.id
         try:
             return self.entity_id == other.entity_id
         except AttributeError:
@@ -44,7 +47,6 @@ class Artist(Entity):
                 return result
             except ValueError:
                 pass #call failed, probably not an endpoint
-                                                    
         return getattr(super(Artist, self), attr)
 
     def fetch_summary(self):
