@@ -23,7 +23,7 @@ class Artist(Entity):
                 raise KeyError("unexpected creation attribute")
 
     def __str__(self):
-        name = getattr(self, name, '<name unknown>')
+        name = getattr(self, 'name', '<name unknown>')
         return "Artist::UUID - {0}:: Name - {1}".format(self.entity_id, name.encode('utf-8'))
 
     def __eq__(self, other):
