@@ -29,3 +29,6 @@ In order to use this wrapper with the Musicmetric API, you need to place your AP
 > 
 
 both of these are checked at run time in the order listed. The first key found will be used (ie. if there's a key in env, this will be used and the config file will be ignored).
+
+
+This software is released and distributed under the ISC License, whose text is contained in LICENSE.txt.
