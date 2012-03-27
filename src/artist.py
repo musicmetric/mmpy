@@ -6,7 +6,7 @@ class Artist(Entity):
     wraps the artist entity type as described at http://developer.musicmetric.com/timeseries.html
     all timeseries are attributes of the form self.<type>_<source>, which sets a dict if there's data
     """
-    summary_attrs = ("class", "name", "id", "description", "musicbrainz", "previous_rank", "rank")
+    summary_attrs = ("name", "id", "description", "previous_rank", "rank")
     def __init__(self, artistUUID, **kwargs):
         """
         creates an artist instance. UUID required(or equivelant 3rd party id with prefix,
@@ -23,10 +23,13 @@ class Artist(Entity):
                 raise KeyError("unexpected creation attribute")
 
     def __str__(self):
-        name = getattr(self, name, '<name unknown>')
+        name = getattr(self, 'name', '<name unknown>')
         return "Artist::UUID - {0}:: Name - {1}".format(self.entity_id, name.encode('utf-8'))
 
     def __eq__(self, other):
+        if 'id' in self.__dict__ and 'id' in other.__dict__:
+            # if fetched_summary on both, compare musicmetric IDs
+            return self.id == other.id
         try:
             return self.entity_id == other.entity_id
         except AttributeError:
@@ -44,8 +47,8 @@ class Artist(Entity):
                 return result
             except ValueError:
                 pass #call failed, probably not an endpoint
-                                                    
-        return getattr(super(Artist, self), attr)
+        raise AttributeError("Unknown attribute name: {0}".format(attr))
+        # return getattr(super(Artist, self), attr)
 
     def fetch_summary(self):
         """
