@@ -47,7 +47,8 @@ class Artist(Entity):
                 return result
             except ValueError:
                 pass #call failed, probably not an endpoint
-        return getattr(super(Artist, self), attr)
+        raise AttributeError("Unknown attribute name: {0}".format(attr))
+        # return getattr(super(Artist, self), attr)
 
     def fetch_summary(self):
         """
