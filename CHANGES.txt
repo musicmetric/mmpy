@@ -1,0 +1,2 @@
+v0.1, 28.03.2012 -- Initial release.
+v0.1.1, 29.03.2012 -- Long description README now existing, will not block install
