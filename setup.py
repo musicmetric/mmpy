@@ -14,5 +14,9 @@ setup(name='mmpy',
       package_dir={'mmpy':'src'},
       provides=['mmpy'],
       license='ISCL',
-      requires=['simplejson']
+      requires=['simplejson'],
+      classifiers=['Development Status :: 3 - Alpha',
+                   'License :: OSI Approved :: ISC License (ISCL)',
+                   'Intended Audience :: Developers',
+                   'Operating System :: OS Independent']
       )
