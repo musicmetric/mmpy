@@ -1,3 +1,4 @@
+import logging
 from entity import *
 
 CHARTS = {
@@ -21,6 +22,8 @@ CHARTS = {
 'page views total':             '765855505c7f4e3bb1fc887740f2dd1a',
 'downloads daily high flyers':  '2960402fc260409c8bcd75b00d8dc4c8'
 }
+
+log = logging.getLogger(__name__)
 
 class Chart(Entity):
     """
@@ -51,4 +54,51 @@ class Chart(Entity):
         for key, val in self.response.items():
             if key != "data":
                 setattr(self, key, val)
-        
+    
+    def next(self):
+        """
+        fetch the chart identified by this chart's next_id attribute
+        if the next_id is either null or not present for this chart return None
+        returns the new chart instance on sucess"""
+        try:
+            if self.next_id:
+                return Chart(self.next_id)
+            else:
+                log.debug('attempted to get next chart, but none was found')
+                return
+        except AttributeError:
+            #chart does not implement next pointer
+            log.debug('attempted to get next chart from a chart without a next attribute')
+            return None
+    
+    def previous(self):
+        """
+        fetch the chart identified by this chart's previous_id attribute
+        if the previous_id is either null or not present for this chart return None
+        returns the new chart instance on sucess"""        
+        try:
+            if self.previous_id:
+                return Chart(self.previous_id)
+            else:
+                log.debug('attempted to get previous chart, but none was found')
+                return
+        except AttributeError:
+            #chart does not implement next pointer
+            log.debug('attempted to get previous chart from a chart without a previous attribute')
+            return None
+    
+    def now(self):
+        """
+        fetch the chart identified by this chart's now_id attribute
+        if the now_id is either null or not present for this chart return None
+        returns the new chart instance on sucess"""
+        try:
+            if self.now_id:
+                return Chart(self.now_id)
+            else:
+                log.debug('attempted to get current chart, but none was found')
+                return
+        except AttributeError:
+            #chart does not implement next pointer
+            log.debug('attempted to get current ("now") chart from a chart without a now attribute')
+            return None
