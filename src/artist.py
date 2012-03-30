@@ -22,20 +22,6 @@ class Artist(Entity):
             else:
                 raise KeyError("unexpected creation attribute")
 
-    def __str__(self):
-        name = getattr(self, 'name', '<name unknown>')
-        return "Artist::UUID - {0}:: Name - {1}".format(self.entity_id, name.encode('utf-8'))
-
-    def __eq__(self, other):
-        if 'id' in self.__dict__ and 'id' in other.__dict__:
-            # if fetched_summary on both, compare musicmetric IDs
-            return self.id == other.id
-        try:
-            return self.entity_id == other.entity_id
-        except AttributeError:
-            #other doesn't have a defined entity_id, so they aren't equal
-            return False
-    
     def __getattr__(self, attr):
         if attr in Artist.summary_attrs and not self.fetched_summary:
             self.fetch_summary()

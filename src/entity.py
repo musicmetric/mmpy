@@ -27,6 +27,21 @@ class Entity(object):
         self.entity_type = None
         self.entity_id = None
 
+    def __str__(self):
+        id = getattr(self, 'id', self.entity_id)
+        name = getattr(self, 'name', '<name unknown>')
+        return "{0}::UUID - {1}:: Name - {2}".format(self.entity_type, id, name.encode('utf-8').replace('_',' '))
+    
+    def __eq__(self, other):
+        if 'id' in self.__dict__ and 'id' in other.__dict__:
+            # if fetched_summary on both, compare musicmetric IDs
+            return self.id == other.id
+        try:
+            return self.entity_id == other.entity_id
+        except AttributeError:
+            #other doesn't have a defined entity_id, so they aren't equal
+            return False
+                                                                                    
     def _construct_timeseries(self, timeseries, constraints={}):
         """
         wraps response_from for timeseries calls, returns the resulting dict
