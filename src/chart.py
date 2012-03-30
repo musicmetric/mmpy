@@ -50,8 +50,8 @@ class Chart(Entity):
         cls = getattr(mod, chart_type.title())
         
         setattr(self, chart_type.lower(),
-                ((item["rank"], item["value"], cls(item[chart_type]['id'], name=item[chart_type]['name']))
-                 for item in self.response['data']))
+                [(item["rank"], item["value"], cls(item[chart_type]['id'], name=item[chart_type]['name']))
+                 for item in self.response['data']])
         for key, val in self.response.items():
             if key in (u'end_time', u'start_time'):
                 setattr(self, key, datetime.datetime.fromtimestamp(val))
