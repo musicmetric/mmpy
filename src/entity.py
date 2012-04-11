@@ -7,11 +7,21 @@ from simplejson import loads
 from ConfigParser import SafeConfigParser
 from os.path import exists as pexists, join as pjoin, expanduser
 
+#cascading config vars
+config_path = pjoin(expanduser('~'), '.semetric')
+cfg = SafeConfigParser()
+try:
+    BASE_URL = os.environ['BASE_URL']
+except KeyError:
+    try:
+        cfg.read(pjoin(config_path, 'config'))
+        BASE_URL = cfg.get('semetric','api.key')
+    except:
+        BASE_URL = "http://api.semetric.com/"
+
 try:
     API_KEY = os.environ['SEMETRIC_KEY']
 except KeyError:
-    config_path = pjoin(expanduser('~'), '.semetric')
-    cfg = SafeConfigParser()
     cfg.read(pjoin(config_path, 'config'))
     API_KEY = cfg.get('semetric','api.key')
 
@@ -70,8 +80,8 @@ class Entity(object):
         a 
         """
         params['token'] = API_KEY
-        base_endpoint="http://api.semetric.com/{entity}/{entityID}"
-        uri = base_endpoint.format(entity=self.entity_type,entityID=self.entity_id)
+        base_endpoint="{base_url}/{entity}/{entityID}"
+        uri = base_endpoint.format(base_url=BASE_URL, entity=self.entity_type, entityID=self.entity_id)
         if ext_endpoint:
             if ext_endpoint[0] != '/':
                 ext_endpoint = '/' + ext_endpoint
