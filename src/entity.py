@@ -15,7 +15,7 @@ try:
 except KeyError:
     try:
         cfg.read(pjoin(config_path, 'config'))
-        BASE_URL = cfg.get('semetric','api.key')
+        BASE_URL = cfg.get('semetric','base.url')
     except:
         BASE_URL = "http://api.semetric.com/"
 
@@ -25,6 +25,7 @@ except KeyError:
     cfg.read(pjoin(config_path, 'config'))
     API_KEY = cfg.get('semetric','api.key')
 
+log = logging.getLogger(__name__)
 
 class Entity(object):
     """
@@ -87,7 +88,7 @@ class Entity(object):
                 ext_endpoint = '/' + ext_endpoint
             uri += ext_endpoint
         full_uri = uri + '?' + urlencode(params)
-        logging.debug('opening '+full_uri)
+        log.debug('fetching: {0}'.format(full_uri))
         wrapped_resp = loads(urllib2.urlopen(full_uri).read(), encoding='utf-8')
         #better error handling should go here
         if not wrapped_resp['success']:
