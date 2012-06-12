@@ -9,7 +9,7 @@ except:
 
 
 setup(name='mmpy',
-      version='0.1.4',
+      version='0.1.5dev',
       description='Musicmetric API Wrapper',
       long_description=open('README.rst').read(),
       author='Ben Fields',
