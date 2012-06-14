@@ -6,7 +6,7 @@ class Releasegroup(Entity):
     wraps the ReleaseGroup entity type as described at http://developer.musicmetric.com
     all timeseries are attributes of the form self.<type>_<source>, which sets a dict if there's data
     """
-    summary_attrs = ("name", "id", "description")
+    summary_attrs = ("name", "id", "description", "artist")
     def __init__(self, relgrpUUID, **kwargs):
         """
         creates a releasegroup instance. UUID required(or equivelant 3rd party id with prefix,

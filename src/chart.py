@@ -1,6 +1,7 @@
 import logging
 import datetime
 from entity import *
+from artist import Artist
 
 CHARTS = {
 'fans adds last day':           'bb789492225c4c4da2e15f617acc9982',
@@ -21,7 +22,8 @@ CHARTS = {
 'page views last week':         '3fc5101590484f15ae48903ec6ce3ed5',
 'page views daily high flyers': '8f55159307d6429fac6c5e9b04fc6449',
 'page views total':             '765855505c7f4e3bb1fc887740f2dd1a',
-'downloads daily high flyers':  '2960402fc260409c8bcd75b00d8dc4c8'
+'downloads daily high flyers':  '2960402fc260409c8bcd75b00d8dc4c8',
+'p2p daily releasegroups':      '0695f0bba6144dfaa390e9b9f017ceab'
 }
 
 log = logging.getLogger(__name__)
@@ -48,10 +50,15 @@ class Chart(Entity):
         #import the correct chart type, module will be all lower, clase will be titled (eg. artist.Artist)
         mod = __import__('mmpy.'+chart_type.lower()) #will error if class is unsupported
         cls = getattr(mod, chart_type.title())
-        
-        setattr(self, chart_type.lower(),
+        if chart_type !='releasegroup':
+            setattr(self, chart_type.lower(),
                 [(item["rank"], item["value"], cls(item[chart_type]['id'], name=item[chart_type]['name']))
-                 for item in self.response['data']])
+                    for item in self.response['data']])
+        else:
+            #special casing the releasegroup charts, gah.
+            setattr(self, chart_type.lower(),
+                [(item["rank"], item["value"], cls(item[chart_type]['id'], name=item[chart_type]['name'], artist=Artist(item['artist']['id'], name=item['artist']['name'])))
+                    for item in self.response['data']])
         for key, val in self.response.items():
             if key in (u'end_time', u'start_time'):
                 setattr(self, key, datetime.datetime.fromtimestamp(val))
