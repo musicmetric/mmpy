@@ -32,7 +32,7 @@ both of these are checked at run time in the order listed. The first key found w
 Simple example
 --------------
 
-Here we fetch the chart of artists who bittorrent swarms have the highest acceleration rates and print the top 10
+Here we fetch the chart of artists who bittorrent swarms have the highest acceleration rates and print the top 10::
 
   $import mmpy
   $p2p = mmpy.Chart('downloads daily high flyers')
