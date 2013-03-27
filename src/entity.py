@@ -4,7 +4,7 @@ import urllib2
 from urllib import urlencode
 import datetime
 from simplejson import loads
-from ConfigParser import SafeConfigParser
+from ConfigParser import SafeConfigParser, NoSectionError
 from os.path import exists as pexists, join as pjoin, expanduser
 
 #cascading config vars
@@ -24,6 +24,8 @@ try:
 except KeyError:
     cfg.read(pjoin(config_path, 'config'))
     API_KEY = cfg.get('semetric','api.key')
+except NoSectionError:
+    API_KEY = None
 
 log = logging.getLogger(__name__)
 
